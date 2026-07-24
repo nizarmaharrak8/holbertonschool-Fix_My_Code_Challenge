@@ -1,39 +1,41 @@
-#!/usr/bin/python3
-""" FizzBuzz
-"""
-import sys
+#include "lists.h"
+#include <stdlib.h>
 
+/**
+ * add_dnodeint_end - adds a new node at the end of a doubly linked list
+ * @head: pointer to the head of the list
+ * @n: integer to store in the new node
+ *
+ * Return: address of the new element, or NULL if it failed
+ */
+dlistint_t *add_dnodeint_end(dlistint_t **head, const int n)
+{
+	dlistint_t *new_node;
+	dlistint_t *tmp;
 
-def fizzbuzz(n):
-    """
-    FizzBuzz function prints numbers from 1 to n separated by a space.
+	if (head == NULL)
+		return (NULL);
 
-    - For multiples of three print "Fizz" instead of the number and for
-      multiples of five print "Buzz".
-    - For numbers which are multiples of both three and five print "FizzBuzz".
-    """
-    if n < 1:
-        return
+	new_node = malloc(sizeof(dlistint_t));
+	if (new_node == NULL)
+		return (NULL);
 
-    tmp_result = []
-    for i in range(1, n + 1):
-        if (i % 3) == 0 and (i % 15) == 0:
-            tmp_result.append("FizzBuzz")
-        elif (i % 3) == 0:
-            tmp_result.append("Fizz")
-        elif (i % 5) == 0:
-            tmp_result.append("Buzz")
-        else:
-            tmp_result.append(str(i))
-    print(" ".join(tmp_result))
+	new_node->n = n;
+	new_node->next = NULL;
+	new_node->prev = NULL;
 
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return (new_node);
+	}
 
-if __name__ == '__main__':
-    if len(sys.argv) <= 1:
-        print("Missing number")
-        print("Usage: ./0-fizzbuzz.py <number>")
-        print("Example: ./0-fizzbuzz.py 89")
-        sys.exit(1)
+	tmp = *head;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
 
-    number = int(sys.argv[1])
-    fizzbuzz(number)
+	tmp->next = new_node;
+	new_node->prev = tmp;
+
+	return (new_node);
+}
